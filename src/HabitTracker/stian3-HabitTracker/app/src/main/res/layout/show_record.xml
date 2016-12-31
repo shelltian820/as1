@@ -1,53 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <LinearLayout
-        android:orientation="vertical"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/view_margin">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Habit Name: "
-            android:id="@+id/habit_name" />
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:id="@+id/habit_name"
+            />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Date added: "
-            android:id="@+id/date_added" />
+            android:id="@+id/date_added"
+            android:layout_below="@+id/habit_name"
+            />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Repeat on: "
-            android:id="@+id/repeat_on" />
+            android:id="@+id/repeat_on"
+            android:layout_below="@+id/date_added"
+            />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Times fulfilled: "
-            android:id="@+id/fulfilled_count" />
+            android:id="@+id/fulfilled_count"
+            android:layout_below="@+id/repeat_on"
+            />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Completed on: "
-            android:id="@+id/days_completed" />
+            android:text="Completion History: "
+            android:id="@+id/completed_on"
+            android:layout_below="@+id/fulfilled_count"
+            />
+
+        <CalendarView
+            android:layout_width="match_parent"
+            android:layout_height="405dp"
+            android:id="@+id/caldroid"
+            android:layout_below="@+id/completed_on"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:id="@+id/scrollView"
+            android:layout_below="@+id/caldroid"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/days_completed"
+                />
+        </ScrollView>
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Delete this habit"
+            android:text="DELETE THIS HABIT"
             android:id="@+id/delHabit"
-            android:onClick="delHabit" />
-    </LinearLayout>
+            android:onClick="delHabit"
+            android:focusable="true"
+            android:background="@color/colorAccent"
+            android:textColor="@color/colorWhite"
+            android:layout_below="@+id/scrollView"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+
+    </RelativeLayout>
 </LinearLayout>

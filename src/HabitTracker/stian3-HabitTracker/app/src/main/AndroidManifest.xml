@@ -8,15 +8,15 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".habitTrackerActivity">
+        <activity android:name=".HabitTrackerActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".newHabit"></activity>
-        <activity android:name=".viewAll"></activity>
+        <activity android:name=".NewHabit"></activity>
+        <activity android:name=".ViewAll"></activity>
         <activity android:name=".ShowRecord"></activity>
     </application>
 

@@ -7,8 +7,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 
@@ -21,7 +19,7 @@ import java.io.OutputStreamWriter;
 /**
  * Created by Shelley on 2016-09-25.
  */
-public class viewAll extends Activity {
+public class ViewAll extends Activity {
     private ListView va_list_view;
     public static ArrayAdapter<Habit> vAdapter;
 
@@ -37,7 +35,7 @@ public class viewAll extends Activity {
         //build adapter
         // code from https://www.youtube.com/watch?v=eAPFgC9URqc
         vAdapter = new ArrayAdapter<Habit>(this,
-                R.layout.va_list_item, habitTrackerActivity.myHabitsList);
+                R.layout.va_list_item, HabitTrackerActivity.myHabitsList);
         va_list_view = (ListView)findViewById(R.id.va_list_view);
         va_list_view.setAdapter(vAdapter);
 
@@ -48,9 +46,11 @@ public class viewAll extends Activity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //code from https://www.youtube.com/watch?v=Gi46yco8OJg
                 Habit h = (Habit) va_list_view.getItemAtPosition(position);
-                Toast.makeText(getBaseContext(), "view habit", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(viewAll.this, ShowRecord.class);
+                int h_index = position;
+                //Toast.makeText(getBaseContext(), "view habit", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(ViewAll.this, ShowRecord.class);
                 intent.putExtra("habit",h);
+                intent.putExtra("habit_index",h_index);
                 startActivity(intent);
 
 
@@ -61,12 +61,12 @@ public class viewAll extends Activity {
 
     private void saveInFile() {
         try {
-            FileOutputStream fos = openFileOutput(habitTrackerActivity.FILENAME, 0);
+            FileOutputStream fos = openFileOutput(HabitTrackerActivity.FILENAME, 0);
 
             BufferedWriter out = new BufferedWriter(new OutputStreamWriter(fos));
 
             Gson gson = new Gson();
-            gson.toJson(habitTrackerActivity.myHabitsList, out);
+            gson.toJson(HabitTrackerActivity.myHabitsList, out);
             out.flush();
 
             fos.close();

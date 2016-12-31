@@ -105,7 +105,7 @@ public class Habit implements Serializable{
 
     @Override
     public String toString(){
-        return  name + "| completed " + completedCount + " time(s).";
+        return  name;
     }
 }
 

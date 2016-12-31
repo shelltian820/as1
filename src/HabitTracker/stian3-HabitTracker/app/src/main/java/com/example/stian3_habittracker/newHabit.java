@@ -3,10 +3,8 @@ package com.example.stian3_habittracker;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.google.gson.Gson;
 
@@ -15,12 +13,11 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
-import java.util.Date;
 
 /**
  * Created by Shelley on 2016-09-22.
  */
-public class newHabit extends Activity{
+public class NewHabit extends Activity{
     private EditText hnameText;
     private CheckBox cbMon;
     private CheckBox cbTue;
@@ -85,7 +82,7 @@ public class newHabit extends Activity{
             Habit newHabit = new Habit(hname, isSelectMon, isSelectTue, isSelectWed,
                     isSelectThu, isSelectFri, isSelectSat, isSelectSun);
 
-            habitTrackerActivity.myHabitsList.add(newHabit);
+            HabitTrackerActivity.myHabitsList.add(newHabit);
             saveInFile();
             finish();
 
@@ -95,12 +92,12 @@ public class newHabit extends Activity{
 
     private void saveInFile() {
         try {
-            FileOutputStream fos = openFileOutput(habitTrackerActivity.FILENAME, 0);
+            FileOutputStream fos = openFileOutput(HabitTrackerActivity.FILENAME, 0);
 
             BufferedWriter out = new BufferedWriter(new OutputStreamWriter(fos));
 
             Gson gson = new Gson();
-            gson.toJson(habitTrackerActivity.myHabitsList, out);
+            gson.toJson(HabitTrackerActivity.myHabitsList, out);
             out.flush();
 
             fos.close();

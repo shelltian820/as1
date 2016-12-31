@@ -1,36 +1,40 @@
 package com.example.stian3_habittracker;
 
 import android.app.Activity;
+import android.app.Fragment;
+
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+import com.roomorama.caldroid.CaldroidFragment;
 
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
  * Created by Shelley on 2016-10-01.
  */
-public class ShowRecord extends Activity {
+public class ShowRecord extends FragmentActivity {
 
     private Habit h;
     private SimpleDateFormat df = new SimpleDateFormat("EEE, MMM dd, yyyy");
+    private int h_index;
 
+    private CaldroidFragment caldroidFragment = new CaldroidFragment();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,8 +49,9 @@ public class ShowRecord extends Activity {
 
         Intent intent = getIntent();
         h = (Habit) intent.getSerializableExtra("habit");
+        h_index = intent.getIntExtra("habit_index",0);
 
-        habitName.append(h.getName());
+        habitName.setText(h.getName());
         String d = df.format(h.getFirstDate());
         dateAdded.append(d);
         repeatOn.append(h.getOccurString());
@@ -54,33 +59,67 @@ public class ShowRecord extends Activity {
 
         daysCompleted.append("\n");
         for(Date date: h.getDatesCompleted()){
+            //add in scrollview
             daysCompleted.append(df.format(date));
             daysCompleted.append("\n");
+            //add in calendar
+            markComplete(date);
         }
 
+        addCalendar();
+
+
+
+
+
+    }
+
+    private void addCalendar(){
+        //TODO: highlight dates
+
+        Bundle args = new Bundle();
+        Calendar cal = Calendar.getInstance();
+        args.putInt(CaldroidFragment.MONTH, cal.get(Calendar.MONTH) + 1);
+        args.putInt(CaldroidFragment.YEAR, cal.get(Calendar.YEAR));
+        caldroidFragment.setArguments(args);
+
+        FragmentTransaction t = getSupportFragmentManager().beginTransaction();
+        t.replace(R.id.caldroid, caldroidFragment);
+        t.commit();
+
+    }
+    public void markIncomplete(Date date){
+        ColorDrawable red = new ColorDrawable(getResources().getColor(R.color.incomplete));
+        caldroidFragment.setBackgroundDrawableForDate(red, date);
+    }
+    public void markComplete(Date date){
+        ColorDrawable green = new ColorDrawable(getResources().getColor(R.color.complete));
+        caldroidFragment.setBackgroundDrawableForDate(green, date);
     }
 
 
     //Handle button click
     public void delHabit(View v){
         if (v.getId() == R.id.delHabit) {
-            habitTrackerActivity.myHabitsList.remove(h);
+            //TODO: Make warning
+
+            HabitTrackerActivity.myHabitsList.remove(h_index);
             Toast.makeText(getBaseContext(), "Habit deleted.", Toast.LENGTH_SHORT).show();
             saveInFile();
+            ViewAll.vAdapter.notifyDataSetChanged();
             finish();
         }
 
     }
 
-
     private void saveInFile() {
         try {
-            FileOutputStream fos = openFileOutput(habitTrackerActivity.FILENAME, 0);
+            FileOutputStream fos = openFileOutput(HabitTrackerActivity.FILENAME, 0);
 
             BufferedWriter out = new BufferedWriter(new OutputStreamWriter(fos));
 
             Gson gson = new Gson();
-            gson.toJson(habitTrackerActivity.myHabitsList, out);
+            gson.toJson(HabitTrackerActivity.myHabitsList, out);
             out.flush();
 
             fos.close();

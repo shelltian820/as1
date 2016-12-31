@@ -2,17 +2,12 @@
 
 package com.example.stian3_habittracker;
 
-import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Display;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,9 +28,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class habitTrackerActivity extends AppCompatActivity {
+public class HabitTrackerActivity extends AppCompatActivity {
 
-    private ListView oldHabitsList;
+    private ListView dailyHabitList;
     public static final String FILENAME = "h_file.sav";
     public static ArrayList<Habit> myHabitsList;
     private static ArrayAdapter<Habit> adapter;
@@ -78,17 +73,17 @@ public class habitTrackerActivity extends AppCompatActivity {
         // code from https://www.youtube.com/watch?v=eAPFgC9URqc
         adapter = new ArrayAdapter<Habit>(this,
                 R.layout.main_list_item, myHabitsList);
-        oldHabitsList = (ListView)findViewById(R.id.oldHabitsList);
-        oldHabitsList.setAdapter(adapter);
+        dailyHabitList = (ListView)findViewById(R.id.oldHabitsList);
+        dailyHabitList.setAdapter(adapter);
 
         //add item click listener
         //code from http://www.ezzylearning.com/tutorial/handling-android-listview-onitemclick-event
-        oldHabitsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        dailyHabitList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Toast.makeText(getBaseContext(), "Habit completed once.", Toast.LENGTH_SHORT).show();
 
-                Habit h = (Habit)oldHabitsList.getItemAtPosition(position);
+                Habit h = (Habit) dailyHabitList.getItemAtPosition(position);
                 h.complete(new Date());
                 adapter.notifyDataSetChanged();
                 saveInFile();
@@ -100,7 +95,7 @@ public class habitTrackerActivity extends AppCompatActivity {
     //Handle button click
     public void newHabit(View v){
         if (v.getId() == R.id.newHabitButton) {
-            Intent intent = new Intent(habitTrackerActivity.this, newHabit.class);
+            Intent intent = new Intent(HabitTrackerActivity.this, NewHabit.class);
             startActivity(intent);
 
         }
@@ -108,7 +103,7 @@ public class habitTrackerActivity extends AppCompatActivity {
     }
     public void viewAll(View v){
         if (v.getId() == R.id.viewAllButton) {
-            Intent intent = new Intent(habitTrackerActivity.this, viewAll.class);
+            Intent intent = new Intent(HabitTrackerActivity.this, ViewAll.class);
             startActivity(intent);
         }
     }
@@ -152,6 +147,11 @@ public class habitTrackerActivity extends AppCompatActivity {
             // TODO Auto-generated catch block
             throw new RuntimeException();
         }
+    }
+
+    private void clearFile(){
+        myHabitsList.clear();
+        saveInFile();
     }
 }
 
