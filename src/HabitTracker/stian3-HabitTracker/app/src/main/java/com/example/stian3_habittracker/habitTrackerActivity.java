@@ -42,7 +42,7 @@ public class HabitTrackerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_habit_tracker);
         TextView tv = (TextView) findViewById(R.id.currentDate);
-        myHabitsList = new ArrayList<Habit>();
+        //myHabitsList = new ArrayList<Habit>();
 
         //display date
         //code from http://stackoverflow.com/questions/12934661/android-get-current-date-and-show-it-in-textview
