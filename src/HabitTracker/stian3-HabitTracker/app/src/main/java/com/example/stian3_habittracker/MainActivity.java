@@ -28,11 +28,12 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class HabitTrackerActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity {
 
     private ListView dailyHabitsListView;
     public static final String FILENAME = "h_file.sav";
-    public static ArrayList<Habit> myHabitsList;
+    public static ArrayList<Habit> allHabitsList;
+    public static ArrayList<Habit> dailyHabitsList;
     private static ArrayAdapter<Habit> adapter;
     private SimpleDateFormat df = new SimpleDateFormat("EEE, MMM dd, yyyy");
 
@@ -42,7 +43,7 @@ public class HabitTrackerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_habit_tracker);
         TextView tv = (TextView) findViewById(R.id.currentDate);
-        //myHabitsList = new ArrayList<Habit>();
+        //allHabitsList = new ArrayList<Habit>();
 
         //display date
         //code from http://stackoverflow.com/questions/12934661/android-get-current-date-and-show-it-in-textview
@@ -63,7 +64,7 @@ public class HabitTrackerActivity extends AppCompatActivity {
         //clearFile();
 
         TextView tv = (TextView) findViewById(R.id.click_habit) ;
-        if (myHabitsList.isEmpty()){
+        if (allHabitsList.isEmpty()){
             tv.setText("There are no habits to complete.");
         }else{
             tv.setText("Click a habit to complete it.");
@@ -78,7 +79,7 @@ public class HabitTrackerActivity extends AppCompatActivity {
         //build adapter
         // code from https://www.youtube.com/watch?v=eAPFgC9URqc
         adapter = new ArrayAdapter<Habit>(this,
-                R.layout.main_list_item, myHabitsList);
+                R.layout.main_list_item, allHabitsList);
         dailyHabitsListView = (ListView)findViewById(R.id.dailyHabitsListView);
         dailyHabitsListView.setAdapter(adapter);
 
@@ -101,7 +102,7 @@ public class HabitTrackerActivity extends AppCompatActivity {
     //Handle button click
     public void newHabit(View v){
         if (v.getId() == R.id.newHabitButton) {
-            Intent intent = new Intent(HabitTrackerActivity.this, NewHabit.class);
+            Intent intent = new Intent(MainActivity.this, NewHabitActivity.class);
             startActivity(intent);
 
         }
@@ -109,7 +110,7 @@ public class HabitTrackerActivity extends AppCompatActivity {
     }
     public void viewAll(View v){
         if (v.getId() == R.id.viewAllButton) {
-            Intent intent = new Intent(HabitTrackerActivity.this, ViewAll.class);
+            Intent intent = new Intent(MainActivity.this, ViewAllActivity.class);
             startActivity(intent);
         }
     }
@@ -124,11 +125,11 @@ public class HabitTrackerActivity extends AppCompatActivity {
             // Code from http://stackoverflow.com/questions/12384064/gson-convert-from-json-to-a-typed-arraylistt
             Type listType = new TypeToken<ArrayList<Habit>>(){}.getType();
 
-            myHabitsList = gson.fromJson(in,listType);
+            allHabitsList = gson.fromJson(in,listType);
 
         } catch (FileNotFoundException e) {
             // TODO Auto-generated catch block
-            myHabitsList = new ArrayList<Habit>();
+            allHabitsList = new ArrayList<Habit>();
         } catch (IOException e) {
             // TODO Auto-generated catch block
             throw new RuntimeException();
@@ -142,7 +143,7 @@ public class HabitTrackerActivity extends AppCompatActivity {
             BufferedWriter out = new BufferedWriter(new OutputStreamWriter(fos));
 
             Gson gson = new Gson();
-            gson.toJson(myHabitsList, out);
+            gson.toJson(allHabitsList, out);
             out.flush();
 
             fos.close();
@@ -156,7 +157,7 @@ public class HabitTrackerActivity extends AppCompatActivity {
     }
 
     private void clearFile(){
-        myHabitsList.clear();
+        allHabitsList.clear();
         saveInFile();
     }
 }

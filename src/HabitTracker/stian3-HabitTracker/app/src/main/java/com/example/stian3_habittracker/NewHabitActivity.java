@@ -17,7 +17,7 @@ import java.io.OutputStreamWriter;
 /**
  * Created by Shelley on 2016-09-22.
  */
-public class NewHabit extends Activity{
+public class NewHabitActivity extends Activity{
     private EditText hnameText;
     private CheckBox cbMon;
     private CheckBox cbTue;
@@ -82,7 +82,7 @@ public class NewHabit extends Activity{
             Habit newHabit = new Habit(hname, isSelectMon, isSelectTue, isSelectWed,
                     isSelectThu, isSelectFri, isSelectSat, isSelectSun);
 
-            HabitTrackerActivity.myHabitsList.add(newHabit);
+            MainActivity.allHabitsList.add(newHabit);
             saveInFile();
             finish();
 
@@ -92,12 +92,12 @@ public class NewHabit extends Activity{
 
     private void saveInFile() {
         try {
-            FileOutputStream fos = openFileOutput(HabitTrackerActivity.FILENAME, 0);
+            FileOutputStream fos = openFileOutput(MainActivity.FILENAME, 0);
 
             BufferedWriter out = new BufferedWriter(new OutputStreamWriter(fos));
 
             Gson gson = new Gson();
-            gson.toJson(HabitTrackerActivity.myHabitsList, out);
+            gson.toJson(MainActivity.allHabitsList, out);
             out.flush();
 
             fos.close();

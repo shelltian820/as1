@@ -24,7 +24,7 @@ import java.util.Date;
 /**
  * Created by Shelley on 2016-10-01.
  */
-public class ShowRecord extends FragmentActivity {
+public class HabitInfoActivity extends FragmentActivity {
 
     private Habit h;
     private SimpleDateFormat df = new SimpleDateFormat("EEE, MMM dd, yyyy");
@@ -100,10 +100,10 @@ public class ShowRecord extends FragmentActivity {
         if (v.getId() == R.id.delHabit) {
             //TODO: Make warning
 
-            HabitTrackerActivity.myHabitsList.remove(h_index);
+            MainActivity.allHabitsList.remove(h_index);
             Toast.makeText(getBaseContext(), "Habit deleted.", Toast.LENGTH_SHORT).show();
             saveInFile();
-            ViewAll.vAdapter.notifyDataSetChanged();
+            ViewAllActivity.vAdapter.notifyDataSetChanged();
             finish();
         }
 
@@ -111,12 +111,12 @@ public class ShowRecord extends FragmentActivity {
 
     private void saveInFile() {
         try {
-            FileOutputStream fos = openFileOutput(HabitTrackerActivity.FILENAME, 0);
+            FileOutputStream fos = openFileOutput(MainActivity.FILENAME, 0);
 
             BufferedWriter out = new BufferedWriter(new OutputStreamWriter(fos));
 
             Gson gson = new Gson();
-            gson.toJson(HabitTrackerActivity.myHabitsList, out);
+            gson.toJson(MainActivity.allHabitsList, out);
             out.flush();
 
             fos.close();
