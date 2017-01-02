@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Click a habit for more information"
-            android:id="@+id/textView6"
+            android:id="@+id/click_info"
             android:layout_gravity="center_horizontal" />
 
         <ListView

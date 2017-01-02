@@ -1,11 +1,7 @@
 package com.example.stian3_habittracker;
 
-import android.app.Activity;
-import android.app.Fragment;
-
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
@@ -49,10 +45,11 @@ public class ShowRecord extends FragmentActivity {
 
         Intent intent = getIntent();
         h = (Habit) intent.getSerializableExtra("habit");
-        h_index = intent.getIntExtra("habit_index",0);
+        h_index = intent.getIntExtra("habit_index",9999);
+
 
         habitName.setText(h.getName());
-        String d = df.format(h.getFirstDate());
+        String d = df.format(h.getDateAdded());
         dateAdded.append(d);
         repeatOn.append(h.getOccurString());
         fulfilledCount.append(Integer.toString(h.getCompletedCount()));

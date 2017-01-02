@@ -30,7 +30,7 @@ import java.util.Date;
 
 public class HabitTrackerActivity extends AppCompatActivity {
 
-    private ListView dailyHabitList;
+    private ListView dailyHabitsListView;
     public static final String FILENAME = "h_file.sav";
     public static ArrayList<Habit> myHabitsList;
     private static ArrayAdapter<Habit> adapter;
@@ -50,11 +50,7 @@ public class HabitTrackerActivity extends AppCompatActivity {
         String dateString = df.format(date);
         tv.setText(dateString);
 
-        /*
-        //use this to clear file
-        myHabitsList.clear();
-        saveInFile();
-        */
+
     }
 
     @Override
@@ -62,6 +58,16 @@ public class HabitTrackerActivity extends AppCompatActivity {
         // TODO Auto-generated method stub
         super.onStart();
         loadFromFile();
+
+        //use this to clear file
+        //clearFile();
+
+        TextView tv = (TextView) findViewById(R.id.click_habit) ;
+        if (myHabitsList.isEmpty()){
+            tv.setText("There are no habits to complete.");
+        }else{
+            tv.setText("Click a habit to complete it.");
+        }
         //add items to main list view
         createListView();
 
@@ -73,17 +79,17 @@ public class HabitTrackerActivity extends AppCompatActivity {
         // code from https://www.youtube.com/watch?v=eAPFgC9URqc
         adapter = new ArrayAdapter<Habit>(this,
                 R.layout.main_list_item, myHabitsList);
-        dailyHabitList = (ListView)findViewById(R.id.oldHabitsList);
-        dailyHabitList.setAdapter(adapter);
+        dailyHabitsListView = (ListView)findViewById(R.id.dailyHabitsListView);
+        dailyHabitsListView.setAdapter(adapter);
 
         //add item click listener
         //code from http://www.ezzylearning.com/tutorial/handling-android-listview-onitemclick-event
-        dailyHabitList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        dailyHabitsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Toast.makeText(getBaseContext(), "Habit completed once.", Toast.LENGTH_SHORT).show();
 
-                Habit h = (Habit) dailyHabitList.getItemAtPosition(position);
+                Habit h = (Habit) dailyHabitsListView.getItemAtPosition(position);
                 h.complete(new Date());
                 adapter.notifyDataSetChanged();
                 saveInFile();

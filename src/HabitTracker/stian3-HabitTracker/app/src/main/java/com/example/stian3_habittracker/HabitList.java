@@ -13,13 +13,15 @@ public class HabitList {
         habits.add(habit);
     }
 
-    public Habit getHabit(int i){
-        return habits.get(i);
+    public Habit getHabit(int index){
+        return habits.get(index);
     }
 
-    public void removeHabit(Habit a){
-        habits.remove(a);
+    public void removeHabit(Habit habit){
+        habits.remove(habit);
     }
+
+    public boolean isEmpty(){ return habits.isEmpty();}
 
 
 }

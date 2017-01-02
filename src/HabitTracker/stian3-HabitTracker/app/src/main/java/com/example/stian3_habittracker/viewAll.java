@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 
@@ -28,6 +29,17 @@ public class ViewAll extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.view_all);
         createListView();
+    }
+
+    @Override
+    protected void onStart(){
+        super.onStart();
+        TextView tv = (TextView) findViewById(R.id.click_info) ;
+        if (HabitTrackerActivity.myHabitsList.isEmpty()){
+            tv.setText("There are currently no habits.");
+        }else{
+            tv.setText("Tap on a habit for more information.");
+        }
     }
 
 

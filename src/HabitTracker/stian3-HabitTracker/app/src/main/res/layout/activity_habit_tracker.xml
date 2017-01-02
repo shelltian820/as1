@@ -42,9 +42,8 @@
         <ListView
             android:layout_width="match_parent"
             android:layout_height="330dp"
-            android:id="@+id/oldHabitsList"
+            android:id="@+id/dailyHabitsListView"
             android:layout_gravity="center_horizontal"
-            android:layout_weight="1.02"
             android:layout_below="@+id/click_habit"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
@@ -55,7 +54,7 @@
             android:text="Add New Habit"
             android:id="@+id/newHabitButton"
             android:onClick="newHabit"
-            android:layout_below="@+id/oldHabitsList"
+            android:layout_below="@+id/dailyHabitsListView"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
 

@@ -54,7 +54,7 @@
 
         <CalendarView
             android:layout_width="match_parent"
-            android:layout_height="405dp"
+            android:layout_height="407dp"
             android:id="@+id/caldroid"
             android:layout_below="@+id/completed_on"
             android:layout_alignParentLeft="true"

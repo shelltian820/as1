@@ -1,10 +1,6 @@
 package com.example.stian3_habittracker;
 
-import android.widget.Toast;
-
 import java.io.Serializable;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -17,7 +13,9 @@ public class Habit implements Serializable{
     private static final long serialVersionUID = 1L;
 
     private String name;
-    private Date firstDate;
+    private Date dateAdded;
+    private Date startDate;
+    private boolean started = false;
     private boolean occurMon = false;
     private boolean occurTue = false;
     private boolean occurWed = false;
@@ -27,12 +25,14 @@ public class Habit implements Serializable{
     private boolean occurSun = false;
     private int completedCount = 0;
     private ArrayList<Date> datesCompleted = new ArrayList<Date>();
+    private ArrayList<Date> datesIncomplete = new ArrayList<Date>();
 
 
     //constructor for when date is not entered
     public Habit(String name, boolean mon, boolean tue, boolean wed, boolean thu, boolean fri, boolean sat, boolean sun){
         this.name = name;
-        this.firstDate = new Date();
+        this.dateAdded = new Date();
+        this.startDate = new Date();
 
         this.occurMon = mon;
         this.occurTue = tue;
@@ -41,12 +41,16 @@ public class Habit implements Serializable{
         this.occurFri = fri;
         this.occurSat = sat;
         this.occurSun = sun;
+
+        this.started = true;
+
     }
-    //constructor for when date is entered
+    //constructor for when start date is entered
     public Habit(String name, boolean mon, boolean tue, boolean wed, boolean thu, boolean fri, boolean sat, boolean sun, Date date){
         this.name = name;
-        this.firstDate = date;
-        datesCompleted.add(this.firstDate);
+        this.dateAdded = new Date();
+        this.startDate = date;
+
         this.occurMon = mon;
         this.occurTue = tue;
         this.occurWed = wed;
@@ -54,17 +58,10 @@ public class Habit implements Serializable{
         this.occurFri = fri;
         this.occurSat = sat;
         this.occurSun = sun;
+
+        this.started = false;
     }
 
-    //
-    public void setName(String name) throws InvalidHabitException {
-        if (name.length() > 100 || name.length()<1) {
-            //Toast.makeText(Habit.this, "Your habit name is too short/long",Toast.LENGTH_LONG);
-            throw new InvalidHabitException();
-        }
-        this.name = name;
-
-    }
 
     public String getName() {
         return name;
@@ -74,16 +71,14 @@ public class Habit implements Serializable{
         return completedCount;
     }
 
-    public Date getFirstDate() {
-        return firstDate;
+    public Date getStartDate() {
+        return startDate;
     }
 
-    public void complete(Date date){
-        this.completedCount += 1;
-
-        //add date to datesCompleted
-        datesCompleted.add(date);
+    public Date getDateAdded(){
+        return dateAdded;
     }
+
 
     //displays which days habit is repeated
     public String getOccurString(){
@@ -103,9 +98,39 @@ public class Habit implements Serializable{
         return datesCompleted;
     }
 
+    public ArrayList<Date> getDatesIncomplete() {
+        return datesIncomplete;
+    }
+
+    public void setName(String name) throws InvalidHabitException {
+        if (name.length() > 100 || name.length()<1) {
+            //TODO: edit habit name
+            //Toast.makeText(Habit.this, "Your habit name is too short/long",Toast.LENGTH_LONG);
+            throw new InvalidHabitException();
+        }
+        this.name = name;
+
+    }
+
+    public void setOccuringDays(){
+        //TODO:let user change occuring days
+    }
+
+    public void setStartDate(){
+        //TODO: let user change start date
+    }
+
     @Override
     public String toString(){
         return  name;
     }
+
+    public void complete(Date date){
+        this.completedCount += 1;
+
+        //add date to datesCompleted
+        datesCompleted.add(date);
+    }
+
 }
 
