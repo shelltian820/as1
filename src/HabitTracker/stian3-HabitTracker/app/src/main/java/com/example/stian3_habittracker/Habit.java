@@ -75,12 +75,14 @@ public class Habit implements Serializable{
         return startDate;
     }
 
+    public boolean isStarted(){
+        return started;
+    }
+
     public Date getDateAdded(){
         return dateAdded;
     }
 
-
-    //displays which days habit is repeated
     public String getOccurString(){
         String s = "";
         if (occurMon) s += "Mon ";
@@ -92,6 +94,34 @@ public class Habit implements Serializable{
         if (occurSun) s += "Sun ";
         return s;
 
+    }
+
+    public boolean isOccurMon() {
+        return occurMon;
+    }
+
+    public boolean isOccurTue() {
+        return occurTue;
+    }
+
+    public boolean isOccurWed() {
+        return occurWed;
+    }
+
+    public boolean isOccurThu() {
+        return occurThu;
+    }
+
+    public boolean isOccurFri() {
+        return occurFri;
+    }
+
+    public boolean isOccurSat() {
+        return occurSat;
+    }
+
+    public boolean isOccurSun() {
+        return occurSun;
     }
 
     public ArrayList<Date> getDatesCompleted(){

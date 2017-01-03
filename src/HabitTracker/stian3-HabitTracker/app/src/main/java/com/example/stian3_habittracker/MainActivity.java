@@ -26,6 +26,7 @@ import java.io.OutputStreamWriter;
 import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
@@ -56,12 +57,12 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onStart() {
-        // TODO Auto-generated method stub
-        super.onStart();
-        loadFromFile();
 
         //use this to clear file
         //clearFile();
+
+        super.onStart();
+        loadFromFile();
 
         TextView tv = (TextView) findViewById(R.id.click_habit) ;
         if (allHabitsList.isEmpty()){
@@ -74,12 +75,74 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    private void createListView(){
 
-    public void createListView(){
+        //TODO: only show habits that occur on current day of week
+        Calendar calendar = Calendar.getInstance();
+        int day = calendar.get(Calendar.DAY_OF_WEEK);
+
+        dailyHabitsList = new ArrayList<Habit>();
+
+        switch (day) {
+            case Calendar.SUNDAY:
+                for (Habit habit : allHabitsList){
+                    if(habit.isStarted() && habit.isOccurSun()){
+                        dailyHabitsList.add(habit);
+                    }
+                }
+                break;
+            case Calendar.MONDAY:
+                for (Habit habit : allHabitsList){
+                    if(habit.isStarted() && habit.isOccurMon()){
+                        dailyHabitsList.add(habit);
+                    }
+                }
+                break;
+            case Calendar.TUESDAY:
+                for (Habit habit : allHabitsList){
+                    if(habit.isStarted() && habit.isOccurTue()){
+                        dailyHabitsList.add(habit);
+                    }
+                }
+                break;
+            case Calendar.WEDNESDAY:
+                for (Habit habit : allHabitsList){
+                    if(habit.isStarted() && habit.isOccurWed()){
+                        dailyHabitsList.add(habit);
+                    }
+                }
+                break;
+            case Calendar.THURSDAY:
+                for (Habit habit : allHabitsList){
+                    if(habit.isStarted() && habit.isOccurThu()){
+                        dailyHabitsList.add(habit);
+                    }
+                }
+                break;
+            case Calendar.FRIDAY:
+                for (Habit habit : allHabitsList){
+                    if(habit.isStarted() && habit.isOccurFri()){
+                        dailyHabitsList.add(habit);
+                    }
+                }
+                break;
+            case Calendar.SATURDAY:
+                for (Habit habit : allHabitsList){
+                    if(habit.isStarted() && habit.isOccurSat()){
+                        dailyHabitsList.add(habit);
+                    }
+                }
+                break;
+
+
+
+
+        }
+
         //build adapter
         // code from https://www.youtube.com/watch?v=eAPFgC9URqc
         adapter = new ArrayAdapter<Habit>(this,
-                R.layout.main_list_item, allHabitsList);
+                R.layout.main_list_item, dailyHabitsList);
         dailyHabitsListView = (ListView)findViewById(R.id.dailyHabitsListView);
         dailyHabitsListView.setAdapter(adapter);
 
@@ -160,6 +223,8 @@ public class MainActivity extends AppCompatActivity {
         allHabitsList.clear();
         saveInFile();
     }
+
+
 }
 
 
